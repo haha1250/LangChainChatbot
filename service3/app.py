@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import List
+from typing import List, Any
 
 from dotenv import find_dotenv, load_dotenv
 from fastapi import FastAPI, HTTPException
@@ -35,6 +35,7 @@ COLLECTION_NAME = "vectordb"
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class Message(BaseModel):
     role: str
     content: str
@@ -53,7 +54,7 @@ store = PGVector(
 )
 retriever = store.as_retriever()
 
-prompt_template = """As a FAQ Bot for our restaurant, you have the following information about our restaurant:
+prompt_template = """As a FAQ Bot for our restaurant, you have the following information about our hospital:
 
 {context}
 
@@ -70,8 +71,8 @@ def create_message(conversation: List[Message]):
     return [ROLE_CLASS_MAP[message.role](content=message.content) for message in conversation]
 
 
-def format_docs(docs) -> str:
-    formatted_docs = []
+def format_docs(docs) -> Any:
+    formatted_docs: List[Any] = []
     for doc in docs:
         formatted_doc = "Source: " + doc.metadata['source']
         formatted_doc.append(formatted_doc)
@@ -87,8 +88,9 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+
 @app.post("/service3/{conversation_id}")
-async def service3(conversation_id: str, conversation: Conversation):
+async def service3(conversation_id: str, conversation: Conversation) -> dict[str, Any]:
     try:
         query = conversation.conversation[-1].content
         docs = retriever.get_relevant_documents(query=query)

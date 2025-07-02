@@ -1,6 +1,8 @@
 export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-}
+  plugins: [
+    require('@tailwindcss/postcss')({
+      config: './tailwind.config.js', // optional path
+    }),
+    require('autoprefixer'),
+  ],
+};

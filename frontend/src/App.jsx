@@ -1,11 +1,11 @@
 import React from "react"
 import { useState, useEffect } from "react"
 import { FaSpinner } from "react-icons/fa"
-import './App.css'
+
 
 const App = () => {
   const [conversation, setConversation] = useState({ conversation: [] });
-  const [userMessage, setUsetMessage] = useState("");
+  const [userMessage, setUserMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const App = () => {
     "_" + Math.random().toString(36).slice(2, 11);
 
   const handleInputChange = (event) => {
-    setUsetMessage(event.target.value);
+    setUserMessage(event.target.value);
   };
 
   const handleNewSession = () => {
@@ -59,14 +59,20 @@ const App = () => {
       }
     );
 
-    const data = response.json();
+    const data = await response.json();
     setConversation(data);
-    setUsetMessage("");
+    setUserMessage("");
     setIsLoading(false);
   };
 
   return (
-    <div className="App app-background flex flex-col items-center pt-6 min-h-screen bg-gray-900 text-sm"
+    <div className="App flex flex-col items-center pt-6 min-h-screen bg-gray-900 text-sm"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/background.jpg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
     >
       <h1 className="text-3xl font-bold mb-4 text-white">Hospital Chatbot</h1>
       {conversation.conversation.length > 0 && (
@@ -87,8 +93,7 @@ const App = () => {
             ))
           }
         </div>
-      )
-      }
+      )}
       <div className="flex flex-row w-full max-w-md mt-4">
         <input
           type="text"
@@ -104,7 +109,7 @@ const App = () => {
           placeholder={isLoading ? "Processing..." : "Type your message here"}
         />
         <button
-          onClick={handleSubmit()}
+          onClick={handleSubmit}
           disabled={isLoading}
           className="p-2 rounded bg-blue-800 text-white"
         >

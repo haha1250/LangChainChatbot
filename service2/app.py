@@ -10,12 +10,16 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-r = redis.Redis(host='redis', port=6379, db=0, decode_responses=True)
+r = redis.Redis(host='172.30.102.170', port=6379, db=0, decode_responses=True)
+
+origins = [
+    "http://localhost:5173",
+]
 
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

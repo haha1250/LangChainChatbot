@@ -15,7 +15,7 @@ documents = loader.load()
 text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
 docs = text_splitter.split_documents(documents)
 
-CONNECTION_STRING = "postgresql+psycopg2://admin:admin@127.0.0.1:5433/vectordb"
+CONNECTION_STRING = "postgresql+psycopg2://postgres:vidi@127.0.0.1:5432/vectordb"
 COLLECTION_NAME = "vectordb"
 
 PGVector.from_documents(

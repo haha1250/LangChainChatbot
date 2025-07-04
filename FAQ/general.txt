@@ -1,0 +1,8 @@
+Q: What are the hours of operation for the hospital?
+A: The opening hours for consultation hours at the Hospital are Monday from 8:00 a.m. to 12:00 p.m. and 1:00 p.m. to 3:30 p.m., and Tuesday, Wednesday and Friday from 8:00 a.m. to 12:00 p.m.
+
+Q: What specialist areas and practice focuses does the hospital offer?
+A: Our hospital specializes in angiology, endocrinology, diabetology, metabolism, geriatrics, infectiology, intensive care medicine, nephrology, emergency medicine, psychosomatics, rheumatology, and sonography.
+
+Q: Does the hospital offer emergency care?
+A: Yes, the hospital does offer emergency care.

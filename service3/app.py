@@ -18,6 +18,8 @@ from langchain.prompts import (
     SystemMessagePromptTemplate
 )
 import openai
+from openai import RateLimitError
+
 from pydantic import BaseModel
 
 
@@ -101,5 +103,10 @@ async def service3(conversation_id: str, conversation: Conversation) -> dict[str
 
         result = chat(messages)
         return {"id": conversation_id, "reply": result.content}
+    
+    except RateLimitError:
+        raise HTTPException(status_code=429, detail="OpenAI rate limit exceeded.")
+    
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        print(f"Unexpected error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))

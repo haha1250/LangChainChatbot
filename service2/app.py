@@ -10,10 +10,11 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-r = redis.Redis(host='172.30.102.170', port=6379, db=0, decode_responses=True)
+r = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 
 origins = [
     "http://localhost:5173",
+    "http://localhost:3000",
 ]
 
 app = FastAPI()

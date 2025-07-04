@@ -50,7 +50,8 @@ chat = ChatOpenAI(temperature=0)
 store = PGVector(
     collection_name=COLLECTION_NAME,
     connection_string=CONNECTION_STRING,
-    embedding_function=embeddings
+    embedding_function=embeddings,
+    use_jsonb=True
 )
 retriever = store.as_retriever()
 

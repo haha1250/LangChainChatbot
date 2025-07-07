@@ -8,20 +8,20 @@ spec:
   selector:
     matchLabels:
       app: redis
-    template:
-      metadata:
-        labels:
-          app: redis
-      spec:
-        containers:
-          - name: redis
-            image: redis:latest
-            volumeMounts:
-              - name: redis-data
-                mountPath: /data
-        volumnes:
-          - name: redis-data
-            emptyDir: {}
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+      volumes:
+        - name: redis-data
+          emptyDir: {}
 
 ---
 apiVersion: v1
@@ -45,30 +45,30 @@ spec:
   selector:
     matchLabels:
       app: postgres
-    template:
-      metadata:
-        labels:
-          app: postgres
-      spec:
-        containers:
-          - name: postgres
-            image: mypostgres:latest
-            ports:
-              - containerPort: 5432
-            env:
-              - name: POSTGRES_USER
-                value: "admin"
-              - name: POSTGRES_PASSWORD
-                value: "admin"
-              - name: POSTGRES_DB
-                value: "vectordb"
-            volumeMounts:
-              - name: init-sql
-                mountPath: /docker-entrypoint-initdb.d
-        volumes:
-          - name: init-sql
-            hostPath:
-              path: /path/on/host/postgres/init.sql
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: localhost:5000/mypostgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "admin"
+            - name: POSTGRES_PASSWORD
+              value: "admin"
+            - name: POSTGRES_DB
+              value: "vectordb"
+          volumeMounts:
+            - name: init-sql
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: init-sql
+          hostPath:
+            path: /mnt/c/Users/vidi/LangChainChatbot/postgres/init.sql
 ---
 apiVersion: v1
 kind: Service
@@ -78,7 +78,7 @@ spec:
   selector:
     app: postgres
   ports:
-    - ports: 5433
+    - port: 5432
       targetPort: 5432
 ---
 # Service2
@@ -98,7 +98,7 @@ spec:
     spec:
       containers:
         - name: service2
-          image: myservice2:latest
+          image: localhost:5000/myservice2:latest
           ports:
             - containerPort: 80
 ---
@@ -130,7 +130,7 @@ spec:
     spec:
       containers:
         - name: service3
-          image: myservice3:latest
+          image: localhost:5000/myservice3:latest
           ports:
             - containerPort: 80
           envFrom:
@@ -165,7 +165,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: myfrontend:latest
+          image: localhost:5000/myfrontend:latest
           ports:
             - containerPort: 3000
 ---

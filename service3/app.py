@@ -5,9 +5,13 @@ from typing import List, Any
 from dotenv import find_dotenv, load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from langchain_openai import OpenAIEmbeddings
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_ollama import OllamaEmbeddings
+from langchain_ollama.llms import OllamaLLM
+# from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import PGVector
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from langchain.schema import (
     AIMessage,
     HumanMessage,
@@ -30,8 +34,9 @@ ROLE_CLASS_MAP = {
 }
 
 load_dotenv(find_dotenv())
-openai.api_key = os.getenv("OPENAI_API_KEY")
-CONNECTION_STRING = "postgresql+psycopg2://admin:admin@postgres:5432/vectordb"
+# openai.api_key = os.getenv("OPENAI_API_KEY")
+# CONNECTION_STRING = "postgresql+psycopg2://admin:admin@postgres:5432/vectordb"
+CONNECTION_STRING = "postgresql+psycopg2://admin:admin@localhost:5433/vectordb"
 COLLECTION_NAME = "vectordb"
 
 logging.basicConfig(level=logging.INFO)
@@ -46,9 +51,14 @@ class Message(BaseModel):
 class Conversation(BaseModel):
     conversation: List[Message]
 
+# model = OllamaLLM(model="llama3.2")
+embeddings = OllamaEmbeddings(model="mxbai-embed-large")
+# chat = ChatOpenAI(temperature=0)
+chat = ChatOllama(
+    model="llama3.2",
+    temperature=0
+)
 
-embeddings = OpenAIEmbeddings()
-chat = ChatOpenAI(temperature=0)
 store = PGVector(
     collection_name=COLLECTION_NAME,
     connection_string=CONNECTION_STRING,

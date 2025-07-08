@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install --no-cache-dir fastapi uvicorn langchain-community langchain[openai] openai pgvector postgres psycopg2-binary python-dotenv redis requests
+RUN pip install --no-cache-dir fastapi uvicorn langchain-community langchain-ollama langchain[openai] openai pgvector postgres psycopg2-binary python-dotenv redis requests
 
 RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
 

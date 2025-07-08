@@ -9,6 +9,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    localStorage.clear();
     const fetchConversation = async () => {
       const conversationId = localStorage.getItem("conversationId")
       if (!conversationId) return;

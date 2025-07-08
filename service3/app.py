@@ -57,7 +57,7 @@ store = PGVector(
 )
 retriever = store.as_retriever()
 
-prompt_template = """As a FAQ Bot for our restaurant, you have the following information about our hospital:
+prompt_template = """As a FAQ Bot for our hospital, you have the following information about our hospital:
 
 {context}
 

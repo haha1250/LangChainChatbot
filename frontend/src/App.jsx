@@ -11,14 +11,25 @@ const App = () => {
   useEffect(() => {
     const fetchConversation = async () => {
       const conversationId = localStorage.getItem("conversationId")
-      if (conversationId) {
+      if (!conversationId) return;
+      try {
         const response = await fetch(
           `http://localhost:5000/service2/${conversationId}`
         );
-        const data = await response.json();
-        if (!data.error) {
-          setConversation(data);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch: ${response.status}`)
         }
+        const data = await response.json();
+        if (data.error) {
+          console.warn("Conversation fetch error: ", data.error);
+          throw new Error("Backend error");
+        }
+
+        setConversation(data);
+      } catch (err) {
+        console.warn("Error fetching conversation: ", err.message);
+        localStorage.removeItem("conversationId");
+        setConversation(null);
       }
     };
     fetchConversation();

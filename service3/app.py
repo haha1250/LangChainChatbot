@@ -35,9 +35,9 @@ ROLE_CLASS_MAP = {
 
 load_dotenv(find_dotenv())
 # openai.api_key = os.getenv("OPENAI_API_KEY")
-# CONNECTION_STRING = "postgresql+psycopg2://admin:admin@postgres:5432/vectordb"
-CONNECTION_STRING = "postgresql+psycopg2://admin:admin@localhost:5433/vectordb"
+CONNECTION_STRING = "postgresql+psycopg2://admin:admin@localhost:5432/vectordb"
 COLLECTION_NAME = "vectordb"
+# ollama_url = os.getenv("OLLAMA_BASE", "http://host.docker.internal:11434")
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)    
@@ -56,6 +56,7 @@ embeddings = OllamaEmbeddings(model="mxbai-embed-large")
 # chat = ChatOpenAI(temperature=0)
 chat = ChatOllama(
     model="llama3.2",
+    # base_url=ollama_url,
     temperature=0
 )
 
@@ -67,7 +68,7 @@ store = PGVector(
 )
 retriever = store.as_retriever()
 
-prompt_template = """As a FAQ Bot for our restaurant, you have the following information about our hospital:
+prompt_template = """As a FAQ Bot for our hospital, you have the following information about our hospital:
 
 {context}
 
